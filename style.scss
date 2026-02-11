@@ -1,0 +1,76 @@
+// =================== СТИЛИ ДЛЯ ИЗОБРАЖЕНИЙ ===================
+.engine-card__image-container {
+  position: relative;
+  height: 220px;
+  margin: $spacing-md 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: #000; // Чёрный фон, если изображение не загрузится
+  
+  &:hover {
+    .engine-card__image-overlay {
+      opacity: 1;
+    }
+    
+    img {
+      transform: scale(1.08);
+      filter: brightness(1.1);
+    }
+  }
+}
+
+.engine-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; // Важно: обрезает и масштабирует изображение
+  @include transition(all, 0.5s);
+  
+  // Оптимизация изображений
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.engine-card__image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  @include flex-center;
+  opacity: 0;
+  @include transition(opacity, 0.3s);
+  cursor: pointer;
+  
+  i {
+    font-size: 2.5rem;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+}
+
+// Специфичные стили для каждого типа изображений
+.engine-card--marine .engine-card__image-container {
+  border-color: rgba($marine-color, 0.3);
+}
+
+.engine-card--racing .engine-card__image-container {
+  border-color: rgba($racing-color, 0.3);
+}
+
+.engine-card--aviation .engine-card__image-container {
+  border-color: rgba($aviation-color, 0.3);
+}
+
+.engine-card--nuclear .engine-card__image-container {
+  border-color: rgba($nuclear-color, 0.3);
+}
+
+// Убираем старые иконки (если они ещё есть)
+.engine-card__icon {
+  display: none;
+}
