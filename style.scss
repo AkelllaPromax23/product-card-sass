@@ -1,76 +1,261 @@
-// =================== СТИЛИ ДЛЯ ИЗОБРАЖЕНИЙ ===================
-.engine-card__image-container {
+@use "sass:color";
+// =================== ПЕРЕМЕННЫЕ ===================
+$marine-color: #3498db;
+$racing-color: #e74c3c;
+$aviation-color: #9b59b6;
+$nuclear-color: #2ecc71;
+$dark-color: #1a1a2e;
+$light-color: #ecf0f1;
+$gray-color: #7f8c8d;
+$background: #0f1419;
+$spacing-sm: 10px;
+$spacing-md: 20px;
+$spacing-lg: 30px;
+$border-radius: 16px;
+$card-width: 320px;
+
+// =================== МИКСИНЫ (ВСЕ ТРИ) ===================
+@mixin transition($property: all, $duration: 0.3s) {
+  transition: $property $duration cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin glow-effect($color, $intensity: 0.3) {
+  box-shadow: 0 0 20px rgba($color, $intensity);
+}
+
+// =================== БАЗОВЫЕ СТИЛИ ===================
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: $background;
+  color: $light-color;
+  min-height: 100vh;
+  padding: $spacing-lg;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+// =================== ШАПКА ===================
+.header {
+  text-align: center;
+  margin-bottom: $spacing-lg * 2;
+  padding: $spacing-lg;
+  border-bottom: 2px solid rgba($marine-color, 0.3);
+  
+  h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    margin-bottom: $spacing-sm;
+    color: $light-color;
+    
+    .fa-cogs {
+      color: $marine-color;
+      margin-right: 15px;
+      animation: spin 10s linear infinite;
+    }
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    color: rgba($light-color, 0.7);
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// =================== СЕТКА ===================
+.engines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax($card-width, 1fr));
+  gap: $spacing-lg;
+  margin-bottom: $spacing-lg * 2;
+}
+
+// =================== КАРТОЧКА ===================
+.engine-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: $border-radius;
+  padding: $spacing-md;
   position: relative;
-  height: 220px;
-  margin: $spacing-md 0;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  background: #000; // Чёрный фон, если изображение не загрузится
+  border: 1px solid rgba($light-color, 0.1);
+  @include transition(transform);
   
   &:hover {
-    .engine-card__image-overlay {
-      opacity: 1;
-    }
+    transform: translateY(-10px);
+    @include glow-effect($light-color, 0.1);
+  }
+  
+  &__badge {
+    position: absolute;
+    top: $spacing-md;
+    right: $spacing-md;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  &__image-container {
+    position: relative;
+    height: 200px;
+    margin: $spacing-md 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.1);
     
-    img {
-      transform: scale(1.08);
-      filter: brightness(1.1);
+    &:hover {
+      .engine-card__image-overlay { opacity: 1; }
+      img { transform: scale(1.08); }
     }
   }
-}
-
-.engine-card__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; // Важно: обрезает и масштабирует изображение
-  @include transition(all, 0.5s);
   
-  // Оптимизация изображений
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    @include transition(transform, 0.5s);
+  }
+  
+  &__image-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    @include flex-center; // ← теперь этот миксин определён!
+    opacity: 0;
+    @include transition(opacity);
+    
+    i {
+      font-size: 2rem;
+      color: white;
+      background: rgba(0,0,0,0.5);
+      padding: 15px;
+      border-radius: 50%;
+    }
+  }
+  
+  &__title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+    color: $light-color;
+  }
+  
+  &__subtitle {
+    color: rgba($light-color, 0.7);
+    margin-bottom: $spacing-md;
+  }
+  
+  &__specs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-sm;
+    margin: $spacing-md 0;
+    padding: $spacing-md;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    
+    .spec {
+      text-align: center;
+      
+      i { font-size: 1.5rem; margin-bottom: 8px; }
+      &__value { display: block; font-weight: bold; }
+      &__label { font-size: 0.8rem; color: rgba($light-color, 0.6); }
+    }
+  }
+  
+  &__description {
+    color: rgba($light-color, 0.8);
+    margin: $spacing-md 0;
+    line-height: 1.7;
+  }
+  
+  &__price {
+    margin: $spacing-md 0;
+    padding: $spacing-md;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: center;
+    
+    &-amount {
+      display: block;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    &-note {
+      font-size: 0.85rem;
+      color: rgba($light-color, 0.6);
+    }
+  }
+  
+  &__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-sm;
+    margin-top: $spacing-md;
+  }
+  
+  // Цветовые модификаторы
+  &--marine { border-top: 4px solid $marine-color; }
+  &--racing { border-top: 4px solid $racing-color; }
+  &--aviation { border-top: 4px solid $aviation-color; }
+  &--nuclear { border-top: 4px solid $nuclear-color; }
 }
 
-.engine-card__image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  @include flex-center;
-  opacity: 0;
-  @include transition(opacity, 0.3s);
+// =================== КНОПКИ ===================
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
   cursor: pointer;
+  @include flex-center; // ← и здесь тоже
+  @include transition;
   
-  i {
-    font-size: 2.5rem;
+  i { margin-right: 8px; }
+  
+  &--primary {
+    background: linear-gradient(135deg, $marine-color, color.adjust($marine-color, $lightness: -10%));
     color: white;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 15px;
-    border-radius: 50%;
-    border: 2px solid white;
+    &:hover { @include glow-effect($marine-color, 0.5); }
+  }
+  
+  &--secondary {
+    background: transparent;
+    color: $light-color;
+    border: 1px solid rgba($light-color, 0.3);
+    &:hover { background: rgba($light-color, 0.1); }
+  }
+  
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }
 
-// Специфичные стили для каждого типа изображений
-.engine-card--marine .engine-card__image-container {
-  border-color: rgba($marine-color, 0.3);
-}
-
-.engine-card--racing .engine-card__image-container {
-  border-color: rgba($racing-color, 0.3);
-}
-
-.engine-card--aviation .engine-card__image-container {
-  border-color: rgba($aviation-color, 0.3);
-}
-
-.engine-card--nuclear .engine-card__image-container {
-  border-color: rgba($nuclear-color, 0.3);
-}
-
-// Убираем старые иконки (если они ещё есть)
-.engine-card__icon {
-  display: none;
+// =================== ФУТЕР ===================
+.footer {
+  text-align: center;
+  padding: $spacing-lg;
+  border-top: 1px solid rgba($light-color, 0.1);
+  color: rgba($light-color, 0.6);
 }

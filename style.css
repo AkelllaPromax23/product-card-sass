@@ -1,0 +1,236 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background: #0f1419;
+  color: #ecf0f1;
+  min-height: 100vh;
+  padding: 30px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+  padding: 30px;
+  border-bottom: 2px solid rgba(52, 152, 219, 0.3);
+}
+.header h1 {
+  font-family: "Orbitron", sans-serif;
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: #ecf0f1;
+}
+.header h1 .fa-cogs {
+  color: #3498db;
+  margin-right: 15px;
+  animation: spin 10s linear infinite;
+}
+.header .subtitle {
+  font-size: 1.2rem;
+  color: rgba(236, 240, 241, 0.7);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.engines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.engine-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  border: 1px solid rgba(236, 240, 241, 0.1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.engine-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 20px rgba(236, 240, 241, 0.1);
+}
+.engine-card__badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.engine-card__image-container {
+  position: relative;
+  height: 200px;
+  margin: 20px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+.engine-card__image-container:hover .engine-card__image-overlay {
+  opacity: 1;
+}
+.engine-card__image-container:hover img {
+  transform: scale(1.08);
+}
+.engine-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.engine-card__image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.engine-card__image-overlay i {
+  font-size: 2rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  border-radius: 50%;
+}
+.engine-card__title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+  color: #ecf0f1;
+}
+.engine-card__subtitle {
+  color: rgba(236, 240, 241, 0.7);
+  margin-bottom: 20px;
+}
+.engine-card__specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 20px 0;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+.engine-card__specs .spec {
+  text-align: center;
+}
+.engine-card__specs .spec i {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+.engine-card__specs .spec__value {
+  display: block;
+  font-weight: bold;
+}
+.engine-card__specs .spec__label {
+  font-size: 0.8rem;
+  color: rgba(236, 240, 241, 0.6);
+}
+.engine-card__description {
+  color: rgba(236, 240, 241, 0.8);
+  margin: 20px 0;
+  line-height: 1.7;
+}
+.engine-card__price {
+  margin: 20px 0;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  text-align: center;
+}
+.engine-card__price-amount {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+}
+.engine-card__price-note {
+  font-size: 0.85rem;
+  color: rgba(236, 240, 241, 0.6);
+}
+.engine-card__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+.engine-card--marine {
+  border-top: 4px solid #3498db;
+}
+.engine-card--racing {
+  border-top: 4px solid #e74c3c;
+}
+.engine-card--aviation {
+  border-top: 4px solid #9b59b6;
+}
+.engine-card--nuclear {
+  border-top: 4px solid #2ecc71;
+}
+
+.btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn i {
+  margin-right: 8px;
+}
+.btn--primary {
+  background: linear-gradient(135deg, #3498db, rgb(33.1380753138, 125.1882845188, 186.8619246862));
+  color: white;
+}
+.btn--primary:hover {
+  box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+}
+.btn--secondary {
+  background: transparent;
+  color: #ecf0f1;
+  border: 1px solid rgba(236, 240, 241, 0.3);
+}
+.btn--secondary:hover {
+  background: rgba(236, 240, 241, 0.1);
+}
+.btn--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.footer {
+  text-align: center;
+  padding: 30px;
+  border-top: 1px solid rgba(236, 240, 241, 0.1);
+  color: rgba(236, 240, 241, 0.6);
+}
+
+/*# sourceMappingURL=style.css.map */
